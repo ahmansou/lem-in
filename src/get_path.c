@@ -95,16 +95,17 @@ void		sort_paths(t_path ***path, int npath)
 	}
 }
 
-void		init_paths(t_path ***path, int npath, t_path **spath)
+int		init_paths(t_path ***path, int npath, t_path **spath)
 {
 	t_path	*tpath;
-	// t_path	*spath[npath + 1];
 	int		i;
 
 	i = 0;
 	while (i <= npath)
 	{
-		spath[i] = (t_path*)malloc(sizeof(t_path));
+		// ft_printf("%d ", i);
+		if (!(spath[i] = (t_path*)malloc(sizeof(t_path))))
+			return (0);
 		spath[i]->next = (*path)[i];
 		tpath = (*path)[i];
 		while (tpath)
@@ -114,4 +115,5 @@ void		init_paths(t_path ***path, int npath, t_path **spath)
 		}
 		i++;
 	}
+	return (1);
 }

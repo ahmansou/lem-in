@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static void	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
+static int	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
 {
 	int i;
 	int		shortest;
@@ -21,13 +21,17 @@ static void	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
 	i = -1;
 	tants = se.ants;
 	while (++i <= npath)
+	{
+		if (!path[i])
+			continue ;
 		antgo[i] = path[i]->length;
+	}
 	while (tants > 0)
 	{
 		i = 0;
 		shortest = 0;
 		while (++i <= npath)
-			if (antgo[i] < antgo[shortest])
+			if (path[i] && antgo[i] < antgo[shortest])
 			{
 				shortest = i;
 				break ;
@@ -35,6 +39,8 @@ static void	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
 		antgo[shortest]++;
 		tants--;
 	}
+	ft_printf("pa");
+	return (1);
 }
 
 static int	*init_antstart(int npath, int *antgo, t_path **path)
@@ -46,15 +52,16 @@ static int	*init_antstart(int npath, int *antgo, t_path **path)
 		return (NULL);
 	antstart[0] = 0;
 	antgo[0] -= path[0]->length;
-	i = 1;
-	while (i <= npath)
+	i = 0;
+	while (++i <= npath)
 	{
+		if (!path[i])
+			continue ;
 		antgo[i] -= path[i]->length;
 		if (antgo[i] > 0)
 			antstart[i] = antstart[i - 1] + antgo[i - 1];
 		else
 			antstart[i] = -1;
-		i++;
 	}
 	return (antstart);
 }
@@ -103,6 +110,8 @@ void		putants(t_path **path, int npath, t_ant_env antenv, t_stend se)
 	{
 		while (++i <= npath)
 		{
+			if (antenv.antgo[i] <= 0)
+				continue ;
 			j = antenv.antstart[i] - 1;
 			while (++j < antenv.antstart[i] + antenv.antgo[i])
 				if (antenv.ants[j].arrived == 0)
@@ -118,6 +127,7 @@ void		putants(t_path **path, int npath, t_ant_env antenv, t_stend se)
 							antenv.ants[j].arrived = 1;
 					}
 		}
+		ft_printf(" %d ", allin(antenv, se.ants));
 		ft_putendl("");
 	}
 }
@@ -135,17 +145,27 @@ int			antman(t_path **path, int npath, t_stend se, t_ht **ht)
 	ant_env.ants[se.ants - 1].arrived = 1;
 	ft_printf("## ANTMAN ##\nGroup : %d + N of ants : %d\n", npath, se.ants);
 	sort_paths(&path, npath);
-	init_paths(&path, npath, ant_env.spath);
-	init_antgo(ant_env.antgo, npath, path, se);
-	ant_env.antstart = init_antstart(npath, ant_env.antgo, path);
+	if (!init_paths(&path, npath, ant_env.spath))
+		return (0);
+	ft_printf("d");
+	if (!init_antgo(ant_env.antgo, npath, path, se))
+		return (0);
+	if (!(ant_env.antstart = init_antstart(npath, ant_env.antgo, path)))
+		return (0);
+	ft_printf("la");
 	init_ants(ant_env, npath);
+	
+	
 	t_path	*tpath;
 	int		i;
 	i = -1;
 	while (++i <= npath)
 	{
 		// ft_printf("%s : ", ant_env.spath[i]->next->room->room);
+		// if (!path[i])
+		// 	continue ;
 		tpath = path[i];
+		// ft_printf("\n[%d] ", i);
 		while (tpath)
 		{
 			ft_printf("%s > ", tpath->room->room);
@@ -156,8 +176,12 @@ int			antman(t_path **path, int npath, t_stend se, t_ht **ht)
 		i, ant_env.antstart[i], ant_env.antstart[i] + ant_env.antgo[i] - 1, ant_env.antgo[i]);
 	}
 	ft_putendl("\n----------------\n");
-	
+
+
 	putants(path, npath, ant_env, se);
+	
+	
+	
 
 
 	return (1);

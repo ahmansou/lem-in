@@ -145,7 +145,7 @@ t_path				***solver(t_rooms *rooms, t_ht ***ht, t_stend se);
 int     			get_path(t_ht ***ht, t_rooms **rooms,
 							t_path **path, t_stend se);
 void				sort_paths(t_path ***path, int npath);
-void				init_paths(t_path ***path, int npath, t_path **spath);
+int					init_paths(t_path ***path, int npath, t_path **spath);
 
 // path_misc.c
 int					st_links(t_ht **ht, char *st);
