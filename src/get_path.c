@@ -103,6 +103,14 @@ int		init_paths(t_path ***path, int npath, t_path **spath)
 	i = 0;
 	while (i <= npath)
 	{
+		tpath = (*path)[i];
+		while (tpath->next)
+			tpath = tpath->next;
+		i++;
+	}
+	i = 0;
+	while (i <= npath)
+	{
 		// ft_printf("%d ", i);
 		if (!(spath[i] = (t_path*)malloc(sizeof(t_path))))
 			return (0);

@@ -135,7 +135,28 @@ void		putants(t_path **path, int npath, t_ant_env antenv, t_stend se)
 int			antman(t_path **path, int npath, t_stend se, t_ht **ht)
 {
 	t_ant_env	ant_env;
+
+
+	t_path	*tpath;
+	int		i;
 	
+	i = -1;
+	while (++i <= npath)
+	{
+		// ft_printf("%s : ", ant_env.spath[i]->next->room->room);
+		// if (!path[i])
+		// 	continue ;
+		tpath = path[i];
+		ft_printf("\n[%d] ", i);
+		while (tpath)
+		{
+			ft_printf("%s > ", tpath->room->room);
+			// ft_printf("{%s, %d} > ", tpath->room->room, tpath->busy);
+			tpath = tpath->next;
+		}
+		ft_putendl("");
+	}
+
 	if (!(ant_env.ants = (t_ants*)malloc(sizeof(t_ants) * se.ants)))
 		return (0);
 	if (!(ant_env.spath = (t_path**)malloc(sizeof(t_path*) * (npath + 1))))
@@ -156,8 +177,6 @@ int			antman(t_path **path, int npath, t_stend se, t_ht **ht)
 	init_ants(ant_env, npath);
 	
 	
-	t_path	*tpath;
-	int		i;
 	i = -1;
 	while (++i <= npath)
 	{
