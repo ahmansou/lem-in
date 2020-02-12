@@ -91,6 +91,21 @@ typedef struct		s_score_env
 
 }					t_score_env;
 
+typedef struct		s_ants
+{
+	int				pathid;
+	int				arrived;
+	t_path			*croom;
+}					t_ants;
+
+typedef struct		s_ant_env
+{
+	int				*antgo;
+	int				*antstart;
+	struct s_ants	*ants;
+	struct s_path	**spath;
+}					t_ant_env;
+
 // get_next_line.c
 int					get_lines(t_lines **lines);
 void				free_lines(t_lines **lines);
@@ -130,6 +145,7 @@ t_path				***solver(t_rooms *rooms, t_ht ***ht, t_stend se);
 int     			get_path(t_ht ***ht, t_rooms **rooms,
 							t_path **path, t_stend se);
 void				sort_paths(t_path ***path, int npath);
+void				init_paths(t_path ***path, int npath, t_path **spath);
 
 // path_misc.c
 int					st_links(t_ht **ht, char *st);
@@ -141,6 +157,6 @@ void				reset_graph(t_rooms **room);
 
 // antman.c
 
-void				antman(t_path **path, int npath, t_stend se, t_ht **ht);
+int					antman(t_path **path, int npath, t_stend se, t_ht **ht);
 
 #endif

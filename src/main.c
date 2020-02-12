@@ -119,8 +119,11 @@ int			main(void)
 	// 	i++;
 	// }
 	score = git_scores(path, st_links(ht, stend.start), stend);
-	antman(path[score], score, stend, ht);
 	ft_printf("\nbest group %d", score);
+	if (!antman(path[score], score, stend, ht))
+	{
+		ft_printf("anties error");
+	}
 	free_rooms(&rooms);
 	free_lines(&lines);
 	ft_putendl("");
