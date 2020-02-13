@@ -35,20 +35,20 @@ static int	is_valid(t_rooms *el, t_link *tlink, t_rooms *tprev, char *start)
 		return (1);
 	else if (el->prev && el->prev->cap == 0 && el->cap == 0 &&
 			tlink->flow > 0 && tprev->visited == 0)
-		return (2);
+		return (1);
 	else if (el->prev && el->prev->cap == 1 && el->cap == 0 &&
 			tlink->flow > 0 && tprev->visited == 0)
-		return (3);
+		return (1);
 	else if (el->prev && el->prev->cap == 1 && el->cap == 1 &&
 			tlink->flow > 0 && tprev->visited == 0)
-		return (4);
+		return (1);
 	else if (el->prev && el->prev->cap == 0 && el->cap == 1 &&
 			tlink->flow == 2 && tprev->visited == 0)
-		return (5);
+		return (1);
 	return (0);
 }
 
-static int	addtoq(t_ht ***ht, t_q **q, t_rooms *element, t_stend se)
+static int	addtoq(t_q **q, t_rooms *element, t_stend se)
 {
 	t_link	*tlink;
 	t_rooms	*tprev;
@@ -87,17 +87,20 @@ static int	get_q(t_ht ***ht, t_stend se)
 	tht->room->visited = 1;
 	while (tq)
 	{
-		if (addtoq(ht, &q, tq->element, se))
+		if (addtoq(&q, tq->element, se))
+		{
+			free_q(&q);
 			return (1);
+		}
 		tq = tq->next;
 	}
+	free_q(&q);
 	return (0);
 }
 
 t_path		***solver(t_rooms *rooms, t_ht ***ht, t_stend se)
 {
 	t_path	***path;
-	t_path	*tpath;
 	int		i[2];
 
 	if (!(path = (t_path***)malloc(sizeof(t_path**) * st_links(*ht, se.start))))
@@ -111,7 +114,7 @@ t_path		***solver(t_rooms *rooms, t_ht ***ht, t_stend se)
 		while (i[1] <= i[0])
 			path[i[0]][i[1]++] = NULL;
 		i[1] = 0;
-		while (get_path(ht, &rooms, &path[i[0]][i[1]], se))
+		while (get_path(ht, &path[i[0]][i[1]], se))
 		{
 			path[i[0]][i[1]]->length = path_size(path[i[0]][i[1]]);
 			i[1]++;

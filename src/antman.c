@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static int	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
+static void	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
 {
 	int i;
 	int		shortest;
@@ -39,8 +39,6 @@ static int	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
 		antgo[shortest]++;
 		tants--;
 	}
-	ft_printf("pa");
-	return (1);
 }
 
 static int	*init_antstart(int npath, int *antgo, t_path **path)
@@ -101,7 +99,7 @@ int			allin(t_ant_env antenv, int ant)
 	return (1);
 }
 
-void		putants(t_path **path, int npath, t_ant_env antenv, t_stend se)
+static void	putants(int npath, t_ant_env antenv, t_stend se)
 {
 	int i;
 	int j;
@@ -122,40 +120,18 @@ void		putants(t_path **path, int npath, t_ant_env antenv, t_stend se)
 						antenv.ants[j].croom = antenv.ants[j].croom->next;
 						if (ft_strcmp(antenv.ants[j].croom->room->room, se.end))
 							antenv.ants[j].croom->busy = 1;
-						ft_printf("L%d-%s ", j + 1, antenv.ants[j].croom->room->room);
+							ft_printf("L%d-%s ", j + 1, antenv.ants[j].croom->room->room);
 						if (!ft_strcmp(antenv.ants[j].croom->room->room, se.end))
 							antenv.ants[j].arrived = 1;
 					}
 		}
-		ft_printf(" %d ", allin(antenv, se.ants));
 		ft_putendl("");
 	}
 }
 
-int			antman(t_path **path, int npath, t_stend se, t_ht **ht)
+int			antman(t_path **path, int npath, t_stend se, t_lines *lines)
 {
 	t_ant_env	ant_env;
-
-
-	t_path	*tpath;
-	int		i;
-	
-	i = -1;
-	while (++i <= npath)
-	{
-		// ft_printf("%s : ", ant_env.spath[i]->next->room->room);
-		// if (!path[i])
-		// 	continue ;
-		tpath = path[i];
-		ft_printf("\n[%d] ", i);
-		while (tpath)
-		{
-			ft_printf("%s > ", tpath->room->room);
-			// ft_printf("{%s, %d} > ", tpath->room->room, tpath->busy);
-			tpath = tpath->next;
-		}
-		ft_putendl("");
-	}
 
 	if (!(ant_env.ants = (t_ants*)malloc(sizeof(t_ants) * se.ants)))
 		return (0);
@@ -164,44 +140,18 @@ int			antman(t_path **path, int npath, t_stend se, t_ht **ht)
 	if (!(ant_env.antgo = (int*)malloc(sizeof(int) * (npath + 1))))
 		return (0);
 	ant_env.ants[se.ants - 1].arrived = 1;
-	ft_printf("## ANTMAN ##\nGroup : %d + N of ants : %d\n", npath, se.ants);
 	sort_paths(&path, npath);
 	if (!init_paths(&path, npath, ant_env.spath))
 		return (0);
-	ft_printf("d");
-	if (!init_antgo(ant_env.antgo, npath, path, se))
-		return (0);
+	init_antgo(ant_env.antgo, npath, path, se);
 	if (!(ant_env.antstart = init_antstart(npath, ant_env.antgo, path)))
 		return (0);
-	ft_printf("la");
 	init_ants(ant_env, npath);
-	
-	
-	i = -1;
-	while (++i <= npath)
-	{
-		// ft_printf("%s : ", ant_env.spath[i]->next->room->room);
-		// if (!path[i])
-		// 	continue ;
-		tpath = path[i];
-		// ft_printf("\n[%d] ", i);
-		while (tpath)
-		{
-			ft_printf("%s > ", tpath->room->room);
-			// ft_printf("{%s, %d} > ", tpath->room->room, tpath->busy);
-			tpath = tpath->next;
-		}
-		ft_printf("\n[%d, %d,%d, %d]\n",
-		i, ant_env.antstart[i], ant_env.antstart[i] + ant_env.antgo[i] - 1, ant_env.antgo[i]);
-	}
-	ft_putendl("\n----------------\n");
-
-
-	putants(path, npath, ant_env, se);
-	
-	
-	
-
-
+	print_lines(lines);
+	putants(npath, ant_env, se);
+	free(ant_env.ants);
+	free(ant_env.antgo);
+	free_spath(&ant_env.spath, npath);
+	free(ant_env.antstart);
 	return (1);
 }

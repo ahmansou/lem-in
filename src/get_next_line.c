@@ -63,24 +63,26 @@ static int	get_next_line(const int fd, char **line)
 	return (1);
 }
 
-static void	add_line(t_lines **lines, char *line)
+static int	add_line(t_lines **lines, char *line)
 {
 	t_lines *new;
 	t_lines *tmp;
 
-	new = (t_lines*)malloc(sizeof(t_lines));
-	new->line = ft_strdup(line);
+	if (!(new = (t_lines*)malloc(sizeof(t_lines))))
+		return (0);
+	if (!(new->line = ft_strdup(line)))
+		return (0);
 	new->next = NULL;
 	tmp = *lines;
 	if (*lines == NULL)
 	{
 		*lines = new;
-		return ;
+		return (1);
 	}
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
-	return ;
+	return (1);
 }
 
 int			get_lines(t_lines **lines)
@@ -91,7 +93,11 @@ int			get_lines(t_lines **lines)
 	*lines = NULL;
 	while ((ret = get_next_line(0, &line)))
 	{
-		add_line(lines, line);
+		if (!add_line(lines, line))
+		{
+			ft_strdel(&line);
+			return (0);
+		}
 		ft_strdel(&line);
 	}
 	if (ret < 0)
@@ -99,15 +105,15 @@ int			get_lines(t_lines **lines)
 	return (1);
 }
 
-void		free_lines(t_lines **lines)
+void		print_lines(t_lines *lines)
 {
-	t_lines *tmp;
+	t_lines	*tline;
 
-	tmp = *lines;
-	while (tmp)
+	tline = lines;
+	while (tline)
 	{
-		ft_strdel(&tmp->line);
-		free(tmp);
-		tmp = tmp->next;
+		ft_putendl(tline->line);
+		tline = tline->next;
 	}
+	ft_putendl("");
 }

@@ -33,17 +33,23 @@ int		get_room(t_rooms **rooms, char *line, t_stend *stend)
 {
 	char	**split;
 
-	split = ft_strsplit(line, ' ');
-	if (!is_num(split[1]) || !is_num(split[2]))
-		return (0);
 	if (line[0] == 'L' || line[0] == '#')
 		return (-1);
+	split = ft_strsplit(line, ' ');
+	if ((!is_num(split[1]) || !is_num(split[2])))
+	{
+		free2d(&split);
+		return (0);
+	}
 	if (stend->se == 1 && !stend->start)
 		st_end(split[0], stend, 1);
 	else if (stend->se == 2 && !stend->end)
 		st_end(split[0], stend, 2);
 	else if (stend->se > 0 && (stend->start || stend->end))
+	{
+		free2d(&split);
 		return (0);
-	add_room(rooms, split[0]);
+	}add_room(rooms, split[0]);
+	free2d(&split);
 	return (1);
 }

@@ -44,7 +44,7 @@ t_rooms		*get_start(t_ht **ht, char *start)
 	return (troom);
 }
 
-int     	get_path(t_ht ***ht, t_rooms **rooms, t_path **path, t_stend se)
+int     	get_path(t_ht ***ht, t_path **path, t_stend se)
 {
 	t_rooms	*troom;
 	t_link	*tlink;
@@ -111,7 +111,6 @@ int		init_paths(t_path ***path, int npath, t_path **spath)
 	i = 0;
 	while (i <= npath)
 	{
-		// ft_printf("%d ", i);
 		if (!(spath[i] = (t_path*)malloc(sizeof(t_path))))
 			return (0);
 		spath[i]->next = (*path)[i];

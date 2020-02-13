@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-int		st_links(t_ht **ht, char *st)
+int			st_links(t_ht **ht, char *st)
 {
 	t_rooms *start;
 
@@ -22,7 +22,34 @@ int		st_links(t_ht **ht, char *st)
 	return (num_links(start));
 }
 
-int		git_scores(t_path ***path, int stlink, t_stend se)
+static int	no_end(t_path **path, int id, char *end)
+{
+	int		i;
+	t_path	*tpath;
+
+	i = -1;
+	// ft_printf("[%d]", id);
+	while (++i <= id)
+	{
+		if (!path[i])
+			continue ;
+		tpath = path[i];
+		while (tpath)
+		{
+			if (ft_strcmp(end, tpath->room->room) && !tpath->next)
+			{
+				// ft_printf(" 0\n");
+				return (0);
+			}
+			tpath = tpath->next;
+		}
+		// ft_putendl("");
+	}
+	// ft_printf(" 1\n");
+	return (1);
+}
+
+int			git_scores(t_path ***path, int stlink, t_stend se)
 {
 	t_score_env	env;
 	int			score[stlink];
@@ -32,6 +59,8 @@ int		git_scores(t_path ***path, int stlink, t_stend se)
 	while (++env.i < stlink && (env.j = -1))
 	{
 		if (!(env.nrooms = 0) && !path[env.i])
+			continue ;
+		if (!no_end(path[env.i], env.i, se.end))
 			continue ;
 		while (++env.j <= env.i)
 		{
@@ -46,5 +75,6 @@ int		git_scores(t_path ***path, int stlink, t_stend se)
 		env.best_score[0] = (score[env.i] < env.best_score[0]) ?
 			score[env.i] : env.best_score[0];
 	}
+	// ft_printf("best score %d ", env.best_score[0]);
 	return (env.best_score[1]);
 }

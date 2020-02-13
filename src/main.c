@@ -30,6 +30,8 @@ static void	error_man(int error, int ant)
 		ft_printf("No ants or number of ants is negative\n");
 	else if (ant == -8)
 		ft_printf("\n");
+	else if (error == -9)
+		ft_printf("Empty line\n");
 }
 
 int			get_ants(char *s)
@@ -49,15 +51,16 @@ int			main(void)
 	t_ht	**ht;
 	t_stend stend;
 	int		score;
-
-	t_rooms	*tmp;
-	t_link	*tlink;
 	t_path	***path;
-	t_path	*tpath;
-	int ant;
 	int error;
 
-	ft_printf("%d\n", get_lines(&lines));
+	error = 0;
+	if (!get_lines(&lines))
+	{
+		ft_printf("error lines\n");
+		return (0);
+	}
+	// ft_printf("%d\n", get_lines(&lines));
 	rooms = NULL;
 	stend.start = NULL;
 	stend.end = NULL;
@@ -71,61 +74,43 @@ int			main(void)
 	{
 		free_lines(&lines);
 		free_rooms(&rooms);
+		free_stend(&stend);
 		error_man(error, stend.ants);
 		return (0);
 	}
-	tmp = rooms;
-	// ft_printf("N of ants : %d", stend.ants);
-	// ft_printf("\nstar : %s , end : %s", stend.start, stend.end);
 	if (!(ht = create_ht(rooms)))
 	{
 		ft_printf("Hash table error\n");
-		free_rooms(&rooms);
 		free_lines(&lines);
+		free_rooms(&rooms);
+		free_stend(&stend);
+		free_ht(&ht);
 		return (0);
 	}
-	t_ht *tht;
-	t_rooms			*troom;
-	int i = 0;
-	ft_putendl("");
 	if (!(path = solver(rooms, &ht, stend)))
 	{
 		ft_printf("ERROR");
+		free_lines(&lines);
+		free_rooms(&rooms);
+		free_stend(&stend);
+		free_ht(&ht);
 		return (0);
 	}
-	// i = 0;
-	// int j;
-	// while (i < st_links(ht, stend.start))
-	// {
-	// 	ft_printf("{%d}----\n", i);
-	// 	if (path[i])
-	// 	{
-
-	// 		j = 0;
-	// 		while (j <= i)
-	// 		{
-	// 			tpath = path[i][j];
-	// 			ft_printf("\n[%d,%d] ", i, j);
-	// 			while (tpath)
-	// 			{
-	// 				ft_printf("%s -> ", tpath->room->room);
-	// 				tpath = tpath->next;
-	// 			}
-	// 			j++;
-	// 		}
-	// 			ft_putendl("");
-	// 			ft_putendl("");
-	// 	}
-	// 	i++;
-	// }
 	score = git_scores(path, st_links(ht, stend.start), stend);
-	ft_printf("\nbest group %d", score);
-	if (!antman(path[score], score, stend, ht))
+	if (!antman(path[score], score, stend, lines))
 	{
 		ft_printf("anties error");
+		free_lines(&lines);
+		free_rooms(&rooms);
+		free_stend(&stend);
+		free_ht(&ht);
+		free_paths(&path, st_links(ht, stend.start));
 	}
-	free_rooms(&rooms);
+	free_paths(&path, st_links(ht, stend.start));
 	free_lines(&lines);
+	free_rooms(&rooms);
+	free_stend(&stend);
+	free_ht(&ht);
 	ft_putendl("");
 	return (0);
 }

@@ -1,38 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   misc_room.c                                        :+:      :+:    :+:   */
+/*   free_misc2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahmansou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/25 14:20:59 by ahmansou          #+#    #+#             */
-/*   Updated: 2020/01/25 14:21:00 by ahmansou         ###   ########.fr       */
+/*   Created: 2020/02/13 15:03:43 by ahmansou          #+#    #+#             */
+/*   Updated: 2020/02/13 15:03:45 by ahmansou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-void	free_rooms(t_rooms **rooms)
+void	free2d(char ***s)
 {
-	t_rooms *tmp;
-	t_rooms *troom;
-	
-	tmp = *rooms;
-	while (tmp)
+	int i;
+
+	i = 0;
+	while ((*s)[i])
 	{
-		troom = tmp->next;
-		ft_strdel(&tmp->room);
-		free_links(&(tmp->links));
-		free(tmp);
-		tmp = troom;
+		free((*s)[i]);
+		i++;
 	}
+	free(*s);
 }
 
-int		st_end(char *room, t_stend *stend, int se)
+void	free_stend(t_stend *se)
 {
-	if (se == 1)
-		stend->start = ft_strdup(room);
-	if (se == 2)
-		stend->end = ft_strdup(room);
-	return (0);	
+	ft_strdel(&(*se).start);
+	ft_strdel(&(*se).end);
+}
+
+void	free_links(t_link **links)
+{
+	t_link *tlink;
+	t_link *tmp;
+
+	tlink = *links;
+	while (tlink)
+	{
+		tmp = tlink->next;
+		free(tlink);
+		tlink = tmp;
+	}
 }

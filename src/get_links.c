@@ -33,36 +33,38 @@ static int	add_link(t_rooms **current, t_rooms **room, char *link)
 	return (1);
 }
 
+static int	return_err(char ***split, int err)
+{
+	free2d(split);
+	return (err);
+}
+
 static int	get_link(t_rooms **rooms, char *line)
 {
-	char	**split;
+	char	**spl;
 	int		done;
 	t_rooms	*rtmp;
 
 	rtmp = *rooms;
-	split = ft_strsplit(line, '-');
-	done = 0;
-	if (!split[0] || !split[1])
-		return (-6);
-	if (!ft_strcmp(split[1], split[0]))
-		return (-5);
+	spl = ft_strsplit(line, '-');
+	if (!(done = 0) && (!spl[0] || !spl[1] || !ft_strcmp(spl[1], spl[0])))
+		return (return_err(&spl, -6));
 	while (rtmp)
 	{
-		if (!ft_strcmp(rtmp->room, split[0]))
-			done += add_link(&rtmp, rooms, split[1]);
-		if (!ft_strcmp(rtmp->room, split[1]))
-			done += add_link(&rtmp, rooms, split[0]);
+		if (!ft_strcmp(rtmp->room, spl[0]))
+			done += add_link(&rtmp, rooms, spl[1]);
+		if (!ft_strcmp(rtmp->room, spl[1]))
+			done += add_link(&rtmp, rooms, spl[0]);
 		rtmp = rtmp->next;
 	}
 	if (done != 2)
-		return (-4);
+		return (return_err(&spl, -4));
+	free2d(&spl);
 	return (1);
 }
 
 int			get_links(t_rooms **rooms, t_lines *lines)
 {
-	t_rooms	*rtmp;
-	char	**split;
 	int		error;
 
 	while (lines)

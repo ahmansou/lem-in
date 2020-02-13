@@ -26,6 +26,7 @@
 # include "../libft/libft.h"
 # include "../ft_printf/src/ft_printf.h"
 
+
 typedef struct 		s_lines
 {
 	char			*line;
@@ -64,6 +65,17 @@ typedef struct		s_ht
 	t_rooms			*room;
 	struct s_ht		*next;
 }					t_ht;
+
+typedef struct		s_lemin_env
+{
+	struct s_lines	*lines;
+	struct s_rooms	*rooms;
+	struct s_ht		**ht;
+	struct s_stend	stend;
+	struct s_path	***path;
+	int				score;
+	int				error;
+}					t_lemin_env;
 
 typedef struct		s_q
 {
@@ -108,7 +120,7 @@ typedef struct		s_ant_env
 
 // get_next_line.c
 int					get_lines(t_lines **lines);
-void				free_lines(t_lines **lines);
+void				print_lines(t_lines *lines);
 
 // line_misc.c
 int					is_comment(char *s);
@@ -142,8 +154,7 @@ int					path_size(t_path *path);
 t_path				***solver(t_rooms *rooms, t_ht ***ht, t_stend se);
 
 // get_paths.c
-int     			get_path(t_ht ***ht, t_rooms **rooms,
-							t_path **path, t_stend se);
+int     			get_path(t_ht ***ht, t_path **path, t_stend se);
 void				sort_paths(t_path ***path, int npath);
 int					init_paths(t_path ***path, int npath, t_path **spath);
 
@@ -156,7 +167,18 @@ void				correction(t_ht ***ht, t_stend se);
 void				reset_graph(t_rooms **room);
 
 // antman.c
+int					antman(t_path **path, int npath, t_stend se, t_lines *lines);
 
-int					antman(t_path **path, int npath, t_stend se, t_ht **ht);
+// free_misc.c
+void				free_lines(t_lines **lines);
+void				free_q(t_q **q);
+void				free_spath(t_path ***spath, int npath);
+void				free_paths(t_path ****path, int links);
+void				free_ht(t_ht ***ht);
+
+// free_misc2.c
+void				free2d(char ***s);
+void				free_stend(t_stend *se);
+void				free_links(t_link **links);
 
 #endif
