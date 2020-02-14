@@ -26,7 +26,7 @@ static void	correct_flow(t_rooms **node, t_rooms **prev)
 	tlink->flow--;
 }
 
-void	correction(t_ht ***ht, t_stend se)
+void		correction(t_ht ***ht, t_stend se)
 {
 	t_rooms	*troom;
 	t_rooms	*tprev;
@@ -43,7 +43,7 @@ void	correction(t_ht ***ht, t_stend se)
 	}
 }
 
-void	reset_graph(t_rooms **room)
+void		reset_graph(t_rooms **room)
 {
 	t_rooms	*troom;
 

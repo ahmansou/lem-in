@@ -50,9 +50,9 @@ int			main(void)
 	t_rooms *rooms;
 	t_ht	**ht;
 	t_stend stend;
-	int		score;
 	t_path	***path;
-	int error;
+	int		score;
+	int		error;
 
 	error = 0;
 	if (!get_lines(&lines))
@@ -60,7 +60,6 @@ int			main(void)
 		ft_printf("error lines\n");
 		return (0);
 	}
-	// ft_printf("%d\n", get_lines(&lines));
 	rooms = NULL;
 	stend.start = NULL;
 	stend.end = NULL;

@@ -14,8 +14,8 @@
 
 static int	add_link(t_rooms **current, t_rooms **room, char *link)
 {
-	t_rooms *rtmp;
-	t_link *tmp;
+	t_rooms	*rtmp;
+	t_link	*tmp;
 	t_link	*new;
 
 	rtmp = *room;

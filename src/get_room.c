@@ -14,7 +14,7 @@
 
 static void	add_room(t_rooms **rooms, char *line)
 {
-	t_rooms *new;
+	t_rooms	*new;
 	t_rooms *tmp;
 
 	new = (t_rooms*)malloc(sizeof(t_rooms));
@@ -29,7 +29,7 @@ static void	add_room(t_rooms **rooms, char *line)
 	*rooms = new;
 }
 
-int		get_room(t_rooms **rooms, char *line, t_stend *stend)
+int			get_room(t_rooms **rooms, char *line, t_stend *stend)
 {
 	char	**split;
 
@@ -49,7 +49,8 @@ int		get_room(t_rooms **rooms, char *line, t_stend *stend)
 	{
 		free2d(&split);
 		return (0);
-	}add_room(rooms, split[0]);
+	}
+	add_room(rooms, split[0]);
 	free2d(&split);
 	return (1);
 }

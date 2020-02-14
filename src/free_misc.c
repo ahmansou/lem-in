@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-void		free_lines(t_lines **lines)
+void	free_lines(t_lines **lines)
 {
 	t_lines *tmp;
 	t_lines *tline;

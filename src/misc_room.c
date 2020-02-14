@@ -16,7 +16,7 @@ void	free_rooms(t_rooms **rooms)
 {
 	t_rooms *tmp;
 	t_rooms *troom;
-	
+
 	tmp = *rooms;
 	while (tmp)
 	{
@@ -34,5 +34,5 @@ int		st_end(char *room, t_stend *stend, int se)
 		stend->start = ft_strdup(room);
 	if (se == 2)
 		stend->end = ft_strdup(room);
-	return (0);	
+	return (0);
 }

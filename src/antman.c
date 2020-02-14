@@ -14,9 +14,9 @@
 
 static void	init_antgo(int *antgo, int npath, t_path **path, t_stend se)
 {
-	int i;
-	int		shortest;
-	int		tants;
+	int	i;
+	int	shortest;
+	int	tants;
 
 	i = -1;
 	tants = se.ants;
@@ -73,7 +73,7 @@ static void	init_ants(t_ant_env antenv, int npath)
 	while (i <= npath)
 	{
 		j = antenv.antstart[i];
-		while (j <antenv.antstart[i] + antenv.antgo[i])
+		while (j < antenv.antstart[i] + antenv.antgo[i])
 		{
 			antenv.ants[j].pathid = i;
 			antenv.ants[j].arrived = 0;
@@ -82,48 +82,29 @@ static void	init_ants(t_ant_env antenv, int npath)
 		}
 		i++;
 	}
-	
 }
 
-int			allin(t_ant_env antenv, int ant)
+static void	putants(t_ant_env env, t_stend se)
 {
 	int i;
 
-	i = 0;
-	while (i < ant)
+	while (!allin(env, se.ants) && (i = -1))
 	{
-		if (antenv.ants[i].arrived == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-static void	putants(int npath, t_ant_env antenv, t_stend se)
-{
-	int i;
-	int j;
-
-	while (!allin(antenv, se.ants) && (i = -1))
-	{
-		while (++i <= npath)
+		while (++i < se.ants)
 		{
-			if (antenv.antgo[i] <= 0)
-				continue ;
-			j = antenv.antstart[i] - 1;
-			while (++j < antenv.antstart[i] + antenv.antgo[i])
-				if (antenv.ants[j].arrived == 0)
-					if (antenv.ants[j].croom->next &&
-						antenv.ants[j].croom->next->busy == 0)
-					{
-						antenv.ants[j].croom->busy = 0;
-						antenv.ants[j].croom = antenv.ants[j].croom->next;
-						if (ft_strcmp(antenv.ants[j].croom->room->room, se.end))
-							antenv.ants[j].croom->busy = 1;
-							ft_printf("L%d-%s ", j + 1, antenv.ants[j].croom->room->room);
-						if (!ft_strcmp(antenv.ants[j].croom->room->room, se.end))
-							antenv.ants[j].arrived = 1;
-					}
+			if (env.ants[i].arrived == 0)
+				if (env.ants[i].croom->next &&
+				env.ants[i].croom->next->busy == 0)
+				{
+					env.ants[i].croom->busy = 0;
+					env.ants[i].croom = env.ants[i].croom->next;
+					if (ft_strcmp(env.ants[i].croom->room->room, se.end))
+						env.ants[i].croom->busy = 1;
+					ft_printf("L%d-%s ", i + 1,
+							env.ants[i].croom->room->room);
+					if (!ft_strcmp(env.ants[i].croom->room->room, se.end))
+						env.ants[i].arrived = 1;
+				}
 		}
 		ft_putendl("");
 	}
@@ -148,7 +129,7 @@ int			antman(t_path **path, int npath, t_stend se, t_lines *lines)
 		return (0);
 	init_ants(ant_env, npath);
 	print_lines(lines);
-	putants(npath, ant_env, se);
+	putants(ant_env, se);
 	free(ant_env.ants);
 	free(ant_env.antgo);
 	free_spath(&ant_env.spath, npath);

@@ -12,22 +12,22 @@
 
 #include "lemin.h"
 
-int	is_num(char *s)
+int				is_num(char *s)
 {
 	int i;
 
 	i = -1;
-	while(s[++i])
+	while (s[++i])
 		if (ft_isdigit(s[i]) == 0)
 			return (0);
 	return (1);
 }
 
-unsigned int hash(const char *name)
+unsigned int	hash(const char *name)
 {
-	int hash;
-	size_t i;
-	size_t name_len;
+	int		hash;
+	size_t	i;
+	size_t	name_len;
 
 	hash = 0;
 	i = 0;
@@ -41,7 +41,7 @@ unsigned int hash(const char *name)
 	return (hash);
 }
 
-int			num_links(t_rooms *room)
+int				num_links(t_rooms *room)
 {
 	t_link	*tlink;
 	int		i;
@@ -56,7 +56,7 @@ int			num_links(t_rooms *room)
 	return (i);
 }
 
-int			path_size(t_path *path)
+int				path_size(t_path *path)
 {
 	int		c;
 	t_path	*tpath;
@@ -69,4 +69,18 @@ int			path_size(t_path *path)
 		tpath = tpath->next;
 	}
 	return (--c);
+}
+
+int				allin(t_ant_env antenv, int ant)
+{
+	int i;
+
+	i = 0;
+	while (i < ant)
+	{
+		if (antenv.ants[i].arrived == 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }

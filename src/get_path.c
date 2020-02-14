@@ -19,7 +19,7 @@ static int	addtopath(t_path **path, t_rooms *room)
 
 	if (!(npath = (t_path*)malloc(sizeof(t_path))))
 		return (0);
-	npath->room =room;
+	npath->room = room;
 	npath->busy = 0;
 	npath->next = NULL;
 	if (!(*path))
@@ -37,14 +37,14 @@ static int	addtopath(t_path **path, t_rooms *room)
 t_rooms		*get_start(t_ht **ht, char *start)
 {
 	t_rooms	*troom;
-	
+
 	troom = ht[hash(start)]->room;
 	while (ft_strcmp(troom->room, start))
 		troom = troom->next;
 	return (troom);
 }
 
-int     	get_path(t_ht ***ht, t_path **path, t_stend se)
+int			get_path(t_ht ***ht, t_path **path, t_stend se)
 {
 	t_rooms	*troom;
 	t_link	*tlink;
@@ -95,21 +95,20 @@ void		sort_paths(t_path ***path, int npath)
 	}
 }
 
-int		init_paths(t_path ***path, int npath, t_path **spath)
+int			init_paths(t_path ***path, int npath, t_path **spath)
 {
 	t_path	*tpath;
 	int		i;
 
-	i = 0;
-	while (i <= npath)
+	i = -1;
+	while (++i <= npath)
 	{
 		tpath = (*path)[i];
 		while (tpath->next)
 			tpath = tpath->next;
-		i++;
 	}
-	i = 0;
-	while (i <= npath)
+	i = -1;
+	while (++i <= npath)
 	{
 		if (!(spath[i] = (t_path*)malloc(sizeof(t_path))))
 			return (0);
@@ -120,7 +119,6 @@ int		init_paths(t_path ***path, int npath, t_path **spath)
 			tpath->busy = 0;
 			tpath = tpath->next;
 		}
-		i++;
 	}
 	return (1);
 }

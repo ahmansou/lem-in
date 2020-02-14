@@ -26,7 +26,7 @@ int	is_room(char *s)
 	return (0);
 }
 
-int is_stend(char *s)
+int	is_stend(char *s)
 {
 	if (!ft_strcmp(s, "##start"))
 		return (1);

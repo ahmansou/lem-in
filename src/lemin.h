@@ -26,8 +26,7 @@
 # include "../libft/libft.h"
 # include "../ft_printf/src/ft_printf.h"
 
-
-typedef struct 		s_lines
+typedef struct		s_lines
 {
 	char			*line;
 	struct s_lines	*next;
@@ -35,7 +34,6 @@ typedef struct 		s_lines
 
 typedef	struct		s_link
 {
-	// char			*link;
 	struct s_rooms	*link;
 	int				flow;
 	struct s_link	*next;
@@ -54,7 +52,7 @@ typedef struct		s_rooms
 
 typedef struct		s_stend
 {
-	int se;
+	int				se;
 	int				ants;
 	char			*start;
 	char			*end;
@@ -81,7 +79,6 @@ typedef struct		s_q
 {
 	t_rooms			*element;
 	struct s_q		*next;
-	// struct s_q		*prev;
 }					t_q;
 
 typedef struct		s_path
@@ -118,65 +115,96 @@ typedef struct		s_ant_env
 	struct s_path	**spath;
 }					t_ant_env;
 
-// get_next_line.c
+/*
+** get_next_line.c
+*/
 int					get_lines(t_lines **lines);
 void				print_lines(t_lines *lines);
 
-// line_misc.c
+/*
+** line_misc.c
+*/
 int					is_comment(char *s);
 int					is_room(char *s);
 int					is_stend(char *s);
 
-// get_assets.c
+/*
+** get_assets.c
+*/
 int					get_assets(t_rooms **rooms, t_lines *l, t_stend *stend);
 
-// get_room.c
+/*
+** get_room.c
+*/
 int					get_room(t_rooms **rooms, char *line, t_stend *stend);
 
-//get_links.c
-
+/*
+** get_links.c
+*/
 int					get_links(t_rooms **rooms, t_lines *lines);
 
-// hash_table.c
+/*
+** hash_table.c
+*/
 t_ht				**create_ht(t_rooms *room);
 
-// misc_room.c
+/*
+** misc_room.c
+*/
 void				free_rooms(t_rooms **rooms);
 int					st_end(char *room, t_stend *stend, int se);
 
-// misc.c 
+/*
+** misc.c
+*/
 int					is_num(char *s);
 unsigned int		hash(const char *name);
 int					num_links(t_rooms *room);
 int					path_size(t_path *path);
+int					allin(t_ant_env antenv, int ant);
 
-// bfs.c
+/*
+** bfs.c
+*/
 t_path				***solver(t_rooms *rooms, t_ht ***ht, t_stend se);
 
-// get_paths.c
-int     			get_path(t_ht ***ht, t_path **path, t_stend se);
+/*
+** get_paths.c
+*/
+int					get_path(t_ht ***ht, t_path **path, t_stend se);
 void				sort_paths(t_path ***path, int npath);
 int					init_paths(t_path ***path, int npath, t_path **spath);
 
-// path_misc.c
+/*
+** path_misc.c
+*/
 int					st_links(t_ht **ht, char *st);
 int					git_scores(t_path ***path, int stlink, t_stend se);
 
-// correction.c 
+/*
+** correction.c
+*/
 void				correction(t_ht ***ht, t_stend se);
 void				reset_graph(t_rooms **room);
 
-// antman.c
-int					antman(t_path **path, int npath, t_stend se, t_lines *lines);
+/*
+** antman.c
+*/
+int					antman(t_path **path, int npath,
+							t_stend se, t_lines *lines);
 
-// free_misc.c
+/*
+** free_misc.c
+*/
 void				free_lines(t_lines **lines);
 void				free_q(t_q **q);
 void				free_spath(t_path ***spath, int npath);
 void				free_paths(t_path ****path, int links);
 void				free_ht(t_ht ***ht);
 
-// free_misc2.c
+/*
+** free_misc2.c
+*/
 void				free2d(char ***s);
 void				free_stend(t_stend *se);
 void				free_links(t_link **links);

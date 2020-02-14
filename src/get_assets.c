@@ -34,6 +34,8 @@ int		get_assets(t_rooms **rooms, t_lines *l, t_stend *stend)
 		}
 		else if (ft_countc(ltmp->line, '-') == 1)
 			return (get_links(rooms, ltmp));
+		else
+			return (0);
 		ltmp = ltmp->next;
 	}
 	return (1);

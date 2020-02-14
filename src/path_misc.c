@@ -28,7 +28,6 @@ static int	no_end(t_path **path, int id, char *end)
 	t_path	*tpath;
 
 	i = -1;
-	// ft_printf("[%d]", id);
 	while (++i <= id)
 	{
 		if (!path[i])
@@ -37,15 +36,10 @@ static int	no_end(t_path **path, int id, char *end)
 		while (tpath)
 		{
 			if (ft_strcmp(end, tpath->room->room) && !tpath->next)
-			{
-				// ft_printf(" 0\n");
 				return (0);
-			}
 			tpath = tpath->next;
 		}
-		// ft_putendl("");
 	}
-	// ft_printf(" 1\n");
 	return (1);
 }
 
@@ -75,6 +69,5 @@ int			git_scores(t_path ***path, int stlink, t_stend se)
 		env.best_score[0] = (score[env.i] < env.best_score[0]) ?
 			score[env.i] : env.best_score[0];
 	}
-	// ft_printf("best score %d ", env.best_score[0]);
 	return (env.best_score[1]);
 }
