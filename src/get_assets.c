@@ -40,3 +40,13 @@ int		get_assets(t_rooms **rooms, t_lines *l, t_stend *stend)
 	}
 	return (1);
 }
+
+int		get_ants(char *s)
+{
+	long long int	ant;
+
+	ant = ft_atoi(s);
+	if (!is_num(s) || ant < 0)
+		return (-7);
+	return (ant);
+}

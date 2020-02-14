@@ -132,6 +132,7 @@ int					is_stend(char *s);
 ** get_assets.c
 */
 int					get_assets(t_rooms **rooms, t_lines *l, t_stend *stend);
+int					get_ants(char *s);
 
 /*
 ** get_room.c
