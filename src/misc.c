@@ -25,9 +25,9 @@ int				is_num(char *s)
 
 unsigned int	hash(const char *name)
 {
-	int		hash;
-	size_t	i;
-	size_t	name_len;
+	unsigned int	hash;
+	size_t			i;
+	size_t			name_len;
 
 	hash = 0;
 	i = 0;

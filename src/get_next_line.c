@@ -93,6 +93,11 @@ int			get_lines(t_lines **lines)
 	*lines = NULL;
 	while ((ret = get_next_line(0, &line)))
 	{
+		if (!ft_strcmp(line, ""))
+		{
+			ft_strdel(&line);
+			return (1);
+		}
 		if (!add_line(lines, line))
 		{
 			ft_strdel(&line);

@@ -16,23 +16,21 @@ static void	err_man(int error, t_lemin_env *env)
 {
 	if (error == 0)
 	{
-		ft_putendl("Read Error");
+		ft_putendl("ERROR");
 		free_lines(&(env->lines));
 	}
 	else if (error == -1)
-		ft_putendl("Ants Error");
+		ft_putendl("ERROR");
 	else if (error == -2 || error == -4)
 	{
-		ft_putendl("Rooms Error");
-		if (error == -4)
-			ft_putendl("Start room or End room doesnt exist");
+		ft_putendl("ERROR");
 		free_lines(&(env->lines));
 		free_rooms(&(env->rooms));
 		free_stend(&(env->stend));
 	}
 	else if (error == -3)
 	{
-		ft_putendl("Hash Table Error");
+		ft_putendl("ERROR");
 		free_lines(&(env->lines));
 		free_rooms(&(env->rooms));
 		free_stend(&(env->stend));
@@ -44,7 +42,7 @@ static void	err_man_proc(int error, t_lemin_env *env)
 {
 	if (error == 0)
 	{
-		ft_putendl("Solver Error");
+		ft_putendl("ERROR");
 		free_lines(&(env->lines));
 		free_rooms(&(env->rooms));
 		free_stend(&(env->stend));
@@ -52,7 +50,7 @@ static void	err_man_proc(int error, t_lemin_env *env)
 	}
 	else if (error == -1)
 	{
-		ft_putendl("Ant Manager Error");
+		ft_putendl("ERROR");
 		free_paths(&env->path, st_links(env->ht, env->stend.start));
 		free_lines(&(env->lines));
 		free_rooms(&(env->rooms));

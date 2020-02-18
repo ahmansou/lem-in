@@ -36,7 +36,6 @@ int			get_room(t_rooms **rooms, char *line, t_stend *stend)
 	if (line[0] == 'L' || line[0] == '#')
 		return (-1);
 	split = ft_strsplit(line, ' ');
-	// ft_putendl(line);
 	if (!split[0] || !split[1] || !split[2] ||
 		!is_num(split[1]) || !is_num(split[2]))
 	{
