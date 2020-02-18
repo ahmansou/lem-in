@@ -103,13 +103,13 @@ t_path		***solver(t_rooms *rooms, t_ht ***ht, t_stend se)
 	t_path	***path;
 	int		i[2];
 
-	if (!(path = (t_path***)malloc(sizeof(t_path**) * st_links(*ht, se.start))))
+	if (!(path = (t_path***)ft_memalloc(sizeof(t_path**) * st_links(*ht, se.start))))
 		return (NULL);
 	i[0] = 0;
 	while (get_q(ht, se) && !(i[1] = 0))
 	{
 		correction(ht, se);
-		if (!(path[i[0]] = (t_path**)malloc(sizeof(t_path*) * (i[0] + 1))))
+		if (!(path[i[0]] = (t_path**)ft_memalloc(sizeof(t_path*) * (i[0] + 1))))
 			return (NULL);
 		while (i[1] <= i[0])
 			path[i[0]][i[1]++] = NULL;
@@ -122,5 +122,7 @@ t_path		***solver(t_rooms *rooms, t_ht ***ht, t_stend se)
 		reset_graph(&rooms);
 		i[0]++;
 	}
+	if (!path[0])
+		return (NULL);
 	return (path);
 }
