@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmansou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ahmansou <ahmansou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 12:49:50 by ahmansou          #+#    #+#             */
-/*   Updated: 2020/01/25 12:49:52 by ahmansou         ###   ########.fr       */
+/*   Updated: 2020/02/27 15:07:52 by ahmansou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,15 @@ static void	err_man_proc(int error, t_lemin_env *env)
 	}
 }
 
-int			get_data(t_lemin_env *env)
+static int	get_data(t_lemin_env *env)
 {
 	env->rooms = NULL;
 	env->ht = NULL;
 	env->stend.start = NULL;
 	env->stend.end = NULL;
 	if (!get_lines(&env->lines))
+		return (0);
+	if (!env->lines)
 		return (0);
 	if ((env->stend.ants = get_ants(env->lines->line)) <= 0)
 		return (-1);
@@ -78,7 +80,7 @@ int			get_data(t_lemin_env *env)
 	return (1);
 }
 
-int			process_data(t_lemin_env *env)
+static int	process_data(t_lemin_env *env)
 {
 	env->path = NULL;
 	if (!(env->path = solver(env->rooms, &env->ht, env->stend)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   antman.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmansou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ahmansou <ahmansou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 12:49:50 by ahmansou          #+#    #+#             */
-/*   Updated: 2020/01/25 12:49:52 by ahmansou         ###   ########.fr       */
+/*   Updated: 2020/02/27 15:09:46 by ahmansou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int			antman(t_path **path, int npath, t_stend se, t_lines *lines)
 		return (0);
 	if (!(ant_env.antgo = (int*)malloc(sizeof(int) * (npath + 1))))
 		return (0);
-	ant_env.ants[se.ants - 1].arrived = 1;
 	sort_paths(&path, npath);
 	if (!init_paths(&path, npath, ant_env.spath))
 		return (0);

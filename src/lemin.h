@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lemin.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmansou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ahmansou <ahmansou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 12:46:01 by ahmansou          #+#    #+#             */
-/*   Updated: 2020/01/25 12:46:02 by ahmansou         ###   ########.fr       */
+/*   Updated: 2020/02/27 14:57:30 by ahmansou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define BUFF_SIZE 1
 # define FD_LIMIT 4864
-# define TABLE_SIZE 1000
+# define TABLE_SIZE 1
 
 # include <stdlib.h>
 # include <stdio.h>

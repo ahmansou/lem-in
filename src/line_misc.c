@@ -14,7 +14,7 @@
 
 int	is_comment(char *s)
 {
-	if (s[0] == '#' && ft_strcmp(s, "##start") && ft_strcmp(s, "##end"))
+	if (s && s[0] == '#' && ft_strcmp(s, "##start") && ft_strcmp(s, "##end"))
 		return (1);
 	return (0);
 }
@@ -28,9 +28,12 @@ int	is_room(char *s)
 
 int	is_stend(char *s)
 {
-	if (!ft_strcmp(s, "##start"))
-		return (1);
-	if (!ft_strcmp(s, "##end"))
-		return (2);
+	if (s)
+	{
+		if (!ft_strcmp(s, "##start"))
+			return (1);
+		if (!ft_strcmp(s, "##end"))
+			return (2);
+	}
 	return (0);
 }
